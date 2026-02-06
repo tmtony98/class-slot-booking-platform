@@ -1,0 +1,190 @@
+.calendar-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* FullCalendar overrides */
+.fc {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #4A3358;
+}
+
+.fc .fc-button {
+    background: #6B4B7C !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    font-weight: 500 !important;
+}
+
+.fc .fc-button:hover {
+    background: #4A3358 !important;
+}
+
+.fc .fc-button:disabled {
+    opacity: 0.5;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background: #4A3358 !important;
+}
+
+.fc .fc-daygrid-day {
+    min-height: 80px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.fc .fc-daygrid-day:hover {
+    background-color: #f8f5fa;
+}
+
+.fc .fc-daygrid-day-number {
+    font-size: 12px;
+    color: #666;
+    padding: 4px 8px;
+}
+
+.fc .fc-col-header-cell-cushion {
+    font-weight: 600;
+    color: #4A3358;
+    padding: 10px;
+}
+
+/* Batch colors - Available slots */
+.fc-event.batch-1,
+.fc-event.batch-2,
+.fc-event.batch-3 {
+    background-color: #E2DAFF !important;
+    border-color: #E2DAFF !important;
+    cursor: pointer;
+}
+
+.fc-event.batch-1 .slot-content,
+.fc-event.batch-2 .slot-content,
+.fc-event.batch-3 .slot-content {
+    color: #4A3358;
+}
+
+/* Selected state */
+.fc-event.slot-selected {
+    background-color: #664275 !important;
+    border-color: #664275 !important;
+    box-shadow: 0 0 12px rgba(102, 66, 117, 0.5);
+    transform: scale(1.02);
+}
+
+.fc-event.slot-selected .slot-content {
+    color: white;
+}
+
+/* Already booked */
+.fc-event.slot-booked {
+    opacity: 0.7;
+    border: 2px dashed #333 !important;
+    cursor: not-allowed;
+}
+
+/* Sunday cells */
+.fc .fc-daygrid-day.sunday-cell {
+    background-color: #e8e8e8 !important;
+    cursor: not-allowed;
+}
+
+.fc .fc-daygrid-day.sunday-cell:hover {
+    background-color: #e8e8e8 !important;
+}
+
+/* Gap days */
+.fc .fc-daygrid-day.gap-day {
+    background-color: #f5f5f5 !important;
+    cursor: not-allowed;
+}
+
+.fc .fc-daygrid-day.gap-day:hover {
+    background-color: #f5f5f5 !important;
+}
+
+/* Slot content */
+.slot-content {
+    padding: 4px 8px;
+    text-align: center;
+    color: white;
+    border-radius: 4px;
+}
+
+.slot-content .day-label {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.slot-content .topic-label {
+    font-size: 10px;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+.slot-content.selected {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.slot-content.booked::after {
+    content: '✓';
+    display: block;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+/* Event styling */
+.fc .fc-event {
+    border-radius: 6px;
+    margin: 2px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fc .fc-event:hover {
+    transform: scale(1.03);
+    z-index: 10;
+}
+
+/* Today highlight */
+.fc .fc-day-today {
+    background-color: #fef3ff !important;
+}
+
+/* Hide event time */
+.fc .fc-event-time {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.1rem;
+    }
+
+    .fc .fc-daygrid-day {
+        min-height: 60px;
+    }
+
+    .slot-content .day-label {
+        font-size: 9px;
+    }
+
+    .slot-content .topic-label {
+        font-size: 8px;
+    }
+}
