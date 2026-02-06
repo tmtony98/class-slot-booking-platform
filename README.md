@@ -1,73 +1,142 @@
-# React + TypeScript + Vite
+# Class Booking System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A MERN stack web application for scheduling class bookings with monthly batches using FullCalendar React.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: JWT-based login/signup
+- **3 Monthly Batches**: Each with 7 days of classes
+- **Slot Selection**: Interactive calendar with FullCalendar
+- **Booking Management**: View, add, and delete bookings
+- **Responsive Design**: Works on desktop and mobile
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **Frontend**: React, Vite, FullCalendar, React Router
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB with Mongoose
+- **Auth**: JWT (JSON Web Tokens)
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js (v18+)
+- MongoDB (local or Atlas)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. Clone the repository and navigate to the project:
+   ```bash
+   cd class-booking-system
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install all dependencies:
+   ```bash
+   npm run install:all
+   ```
+
+3. Configure environment variables:
+   - Edit `backend/.env` with your MongoDB connection string
+   ```
+   MONGODB_URI=mongodb://localhost:27017/class-booking
+   JWT_SECRET=your-secret-key
+   ```
+
+## Running the Application
+
+### Development Mode
+
+**Terminal 1 - Backend:**
+```bash
+npm run dev:backend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Terminal 2 - Frontend:**
+```bash
+npm run dev:frontend
 ```
+
+### Access the Application
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
+
+## Project Structure
+
+```
+class-booking-system/
+├── backend/
+│   ├── config/
+│   │   └── db.js              # MongoDB connection
+│   ├── middleware/
+│   │   └── auth.js            # JWT authentication
+│   ├── models/
+│   │   ├── User.js            # User schema
+│   │   └── Booking.js         # Booking schema
+│   ├── routes/
+│   │   ├── authRoutes.js      # Auth endpoints
+│   │   └── bookingRoutes.js   # Booking endpoints
+│   ├── utils/
+│   │   └── batchUtils.js      # Batch generation
+│   └── server.js              # Express server
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Calendar/
+│   │   │   │   ├── SlotCalendar.jsx
+│   │   │   │   └── MonthlySchedule.jsx
+│   │   │   └── Modal/
+│   │   │       └── SelectedSlotsModal.jsx
+│   │   ├── pages/
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── SignupPage.jsx
+│   │   │   ├── CalendarPage.jsx
+│   │   │   └── ScheduledClassesPage.jsx
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   ├── utils/
+│   │   │   └── batchUtils.js
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── index.html
+│
+├── IMPLEMENTATION_PLAN.md
+└── README.md
+```
+
+## API Endpoints
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register new user |
+| POST | `/api/auth/login` | Login user |
+| GET | `/api/auth/me` | Get current user |
+
+### Bookings
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/bookings` | Get user's bookings |
+| GET | `/api/bookings/grouped` | Get bookings grouped by month |
+| POST | `/api/bookings` | Create new bookings |
+| DELETE | `/api/bookings/:id` | Delete a booking |
+| GET | `/api/bookings/batches/:year/:month` | Get batch schedule |
+
+## Business Logic
+
+- **Batch 1**: Starts on 1st of every month
+- **Classes**: 7 days per batch, skipping Sundays
+- **Gap**: 2 days between batches (excluding Sundays)
+- **Topics**: 7 different topics per batch (Topic 1-7)
+
+## User Flow
+
+1. **New User**: Login → Calendar Page → Select Slots → Submit → Scheduled Page
+2. **Returning User with Bookings**: Login → Scheduled Page
+3. **Add New Slot**: Scheduled Page → "Add New Slot" → Calendar Page
+
+## License
+
+ISC
