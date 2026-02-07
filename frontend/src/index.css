@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -107,17 +111,4 @@ a:focus-visible {
 
 .fade-in {
   animation: fadeIn 0.3s ease-out;
-}
-
-/* Utility classes */
-.text-center {
-  text-align: center;
-}
-
-.mt-4 {
-  margin-top: 16px;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
 }

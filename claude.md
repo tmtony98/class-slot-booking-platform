@@ -1,0 +1,1 @@
+never try to build  `npm run build` why beacuse this is not a production level application\

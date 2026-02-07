@@ -183,7 +183,7 @@ export default function SlotCalendar({
   };
 
   return (
-    <div className="calendar-wrapper">
+    <div className="bg-white rounded-xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin, interactionPlugin]}

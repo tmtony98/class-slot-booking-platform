@@ -5,7 +5,6 @@ import MonthlySchedule from '../components/Calendar/MonthlySchedule';
 import SelectedSlotsModal from '../components/Modal/SelectedSlotsModal';
 import { bookingsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import './CalendarPage.css';
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -16,6 +15,9 @@ export default function CalendarPage() {
   const [error, setError] = useState('');
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  console.log("selected-slots", selectedSlots);
+
 
   // Fetch user's existing bookings
   useEffect(() => {
@@ -35,9 +37,9 @@ export default function CalendarPage() {
   // Handle slot selection/deselection
   const handleSlotSelect = (slot) => {
     console.log('slot', slot);
-    
+
     const exists = selectedSlots.find(s => s.dateStr === slot.dateStr);
-    
+
     if (exists) {
       setSelectedSlots(prev => prev.filter(s => s.dateStr !== slot.dateStr));
     } else {
@@ -81,17 +83,22 @@ export default function CalendarPage() {
   };
 
   return (
-    <div className="calendar-page">
-      <header className="page-header">
-        <h1>Select your slots</h1>
-        <div className="header-actions">
-          <span className="user-name">Welcome, {user?.name}</span>
-          <button className="btn-logout" onClick={logout}>Logout</button>
+    <div className="min-h-screen bg-[#f5f5f5]">
+      <header className="bg-white flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0 py-3 px-4 md:py-4 md:px-8 shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
+        <h1 className="text-dark-purple text-[1.2rem] md:text-2xl font-semibold">Select your slots</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-[#666] text-sm">Welcome, {user?.name}</span>
+          <button
+            className="py-2 px-4 border border-[#e0e0e0] bg-white rounded-md text-[13px] cursor-pointer text-[#666] transition-all duration-200 hover:border-error hover:text-error"
+            onClick={logout}
+          >
+            Logout
+          </button>
         </div>
       </header>
 
-      <div className="page-content">
-        <div className="calendar-section">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 p-4 md:p-6 max-w-[1400px] mx-auto">
+        <div className="min-w-0">
           <SlotCalendar
             userBookings={userBookings}
             selectedSlots={selectedSlots}
@@ -100,31 +107,35 @@ export default function CalendarPage() {
           />
         </div>
 
-        <div className="sidebar-section">
+        <div className="flex flex-col gap-4 -order-1 lg:order-none">
           <MonthlySchedule
             currentDate={currentDate}
             onMonthSelect={handleMonthChange}
             selectedSlots={selectedSlots}
           />
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <button 
-            className="btn-submit"
+
+          {error && (
+            <div className="bg-error-bg text-error py-3 px-4 rounded-lg text-sm text-center">
+              {error}
+            </div>
+          )}
+
+          <button
+            className="bg-primary-purple text-white border-none py-3.5 px-6 rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-dark-purple hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(107,75,124,0.4)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary-purple disabled:hover:translate-y-0 disabled:hover:shadow-none"
             onClick={handleSubmitClick}
             disabled={selectedSlots.length === 0}
           >
             Submit
           </button>
-          
-          <div className="page-footer">
-            <div className="social-icons">
+
+          <div className="text-center p-4 text-[#666]">
+            <div className="flex justify-center gap-2 mb-2 text-primary-purple">
               <span>●</span>
               <span>●</span>
               <span>●</span>
               <span>●</span>
             </div>
-            <p>For inquiry: +44 123456789</p>
+            <p className="text-xs">For inquiry: +44 123456789</p>
           </div>
         </div>
       </div>
