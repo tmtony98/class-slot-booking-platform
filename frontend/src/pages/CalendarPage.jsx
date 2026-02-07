@@ -5,6 +5,7 @@ import MonthlySchedule from '../components/Calendar/MonthlySchedule';
 import SelectedSlotsModal from '../components/Modal/SelectedSlotsModal';
 import { bookingsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -36,13 +37,21 @@ export default function CalendarPage() {
 
   // Handle slot selection/deselection
   const handleSlotSelect = (slot) => {
-    console.log('slot', slot);
-
     const exists = selectedSlots.find(s => s.dateStr === slot.dateStr);
 
     if (exists) {
+      setError('');
       setSelectedSlots(prev => prev.filter(s => s.dateStr !== slot.dateStr));
     } else {
+      const existingCount = userBookings.filter(b => b.month === slot.month && b.year === slot.year).length;
+      const selectedCount = selectedSlots.filter(s => s.month === slot.month && s.year === slot.year).length;
+
+      if (existingCount + selectedCount >= 7) {
+        toast.warn('Maximum 7 bookings allowed per month');
+        return;
+      }
+
+      setError('');
       setSelectedSlots(prev => [...prev, slot]);
     }
   };
@@ -126,6 +135,13 @@ export default function CalendarPage() {
             disabled={selectedSlots.length === 0}
           >
             Submit
+          </button>
+
+          <button
+            className="border-2 border-primary-purple text-primary-purple bg-white py-3.5 px-6 rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-primary-purple hover:text-white hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(107,75,124,0.4)]"
+            onClick={() => navigate('/scheduled')}
+          >
+            View Bookings
           </button>
 
           <div className="text-center p-4 text-[#666]">

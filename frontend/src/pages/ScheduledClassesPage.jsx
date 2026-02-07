@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { bookingsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { getMonthName } from '../utils/batchUtils';
+import ConfirmDeleteModal from '../components/Modal/ConfirmDeleteModal';
 
 export default function ScheduledClassesPage() {
   const [groupedBookings, setGroupedBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -27,18 +30,21 @@ export default function ScheduledClassesPage() {
     }
   };
 
-  const handleDeleteBooking = async (bookingId) => {
-    if (!confirm('Are you sure you want to delete this booking?')) {
-      return;
-    }
+  const handleDeleteBooking = (bookingId) => {
+    setDeleteTarget(bookingId);
+  };
 
+  const confirmDelete = async () => {
+    setDeleting(true);
     try {
-      await bookingsAPI.delete(bookingId);
-      // Refresh the list
+      await bookingsAPI.delete(deleteTarget);
+      setDeleteTarget(null);
       fetchGroupedBookings();
     } catch (err) {
       setError('Failed to delete booking');
       console.error(err);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -104,16 +110,16 @@ export default function ScheduledClassesPage() {
 
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-3 md:gap-4">
                   {group.bookings.map((booking) => (
-                    <div key={booking._id} className="bg-card-light rounded-[10px] overflow-hidden text-center transition-transform duration-200 hover:-translate-y-0.5">
-                      <div className="bg-light-purple py-2.5 px-2 flex flex-col gap-0.5">
+                    <div key={booking._id} className="bg-light-purple rounded-[10px] overflow-hidden text-center transition-transform duration-200 hover:-translate-y-0.5">
+                      <div className="py-2.5 px-2 flex flex-col gap-0.5">
                         <span className="text-xs font-semibold text-dark-purple">Day {booking.dayNumber}</span>
                         <span className="text-[10px] text-[#666]">{booking.topic}</span>
                       </div>
-                      <div className="bg-light-purple text-[24px] md:text-[28px] font-bold text-dark-purple py-3 md:py-4 px-4">
+                      <div className="text-[24px] md:text-[28px] font-bold text-dark-purple py-3 md:py-4 px-4">
                         {new Date(booking.date).getDate().toString().padStart(2, '0')}
                       </div>
                       <button
-                        className="w-full py-2.5 border-none bg-white text-xs cursor-pointer transition-all duration-200 text-[#666] border-t border-[#e0e0e0] hover:bg-error-bg hover:text-error"
+                        className="w-full py-2  bg-white/60 text-[11px] cursor-pointer transition-all duration-200 text-[#888] border-none hover:bg-red-50 hover:text-error"
                         onClick={() => handleDeleteBooking(booking._id)}
                       >
                         Delete
@@ -126,6 +132,13 @@ export default function ScheduledClassesPage() {
           </div>
         )}
       </div>
+
+      <ConfirmDeleteModal
+        isOpen={deleteTarget !== null}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={confirmDelete}
+        loading={deleting}
+      />
     </div>
   );
 }
