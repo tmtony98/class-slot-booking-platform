@@ -18,7 +18,7 @@ const generateToken = (id) => {
 // @access  Public
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { firstName, lastName, email, countryCode, contactNumber, password } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ email });
@@ -28,16 +28,22 @@ router.post('/register', async (req, res) => {
 
     // Create user
     const user = await User.create({
-      name,
+      firstName,
+      lastName,
       email,
+      countryCode: countryCode || '+91',
+      contactNumber,
       password
     });
 
     if (user) {
       res.status(201).json({
         _id: user._id,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
+        countryCode: user.countryCode,
+        contactNumber: user.contactNumber,
         token: generateToken(user._id),
         hasBookings: false
       });
@@ -74,8 +80,11 @@ router.post('/login', async (req, res) => {
 
     res.json({
       _id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      countryCode: user.countryCode,
+      contactNumber: user.contactNumber,
       token: generateToken(user._id),
       hasBookings: bookingsCount > 0
     });
@@ -95,8 +104,11 @@ router.get('/me', protect, async (req, res) => {
 
     res.json({
       _id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      countryCode: user.countryCode,
+      contactNumber: user.contactNumber,
       hasBookings: bookingsCount > 0
     });
   } catch (error) {
