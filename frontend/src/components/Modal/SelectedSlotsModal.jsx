@@ -75,12 +75,7 @@ export default function SelectedSlotsModal({
         </div>
 
         <div className="text-center mt-6 pt-4 border-t border-[#e0e0e0]">
-          <div className="flex justify-center gap-2 mb-2 text-primary-purple">
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-            <span>●</span>
-          </div>
+         
           <p className="text-xs text-[#666]">For inquiry: +44 123456789</p>
         </div>
       </div>

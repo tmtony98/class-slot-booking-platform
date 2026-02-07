@@ -117,8 +117,8 @@ export function batchesToCalendarEvents(batches, userBookings = []) {
   
   batches.forEach(batch => {
     batch.days.forEach(day => {
-      const isBooked = userBookings.some(b => 
-        b.dateStr === day.dateStr
+      const isBooked = userBookings.some(b =>
+        b.dateStr === day.dateStr || b.dateStr?.substring(0, 10) === day.dateStr
       );
       
       events.push({

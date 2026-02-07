@@ -140,7 +140,6 @@ export default function SlotCalendar({
 
   // Custom event content
   const renderEventContent = (eventInfo) => {
-    console.log('eventInfo', eventInfo);
     
     const { dayNumber, topic, isSelected, isBooked } = eventInfo.event.extendedProps;
     
@@ -148,6 +147,7 @@ export default function SlotCalendar({
       <div className={`slot-content ${isSelected ? 'selected' : ''} ${isBooked ? 'booked' : ''}`}>
         <div className="day-label">Day {dayNumber}</div>
         <div className="topic-label">{topic}</div>
+        {isBooked && <div className="booked-badge">Booked</div>}
       </div>
     );
   };

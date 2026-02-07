@@ -74,7 +74,7 @@ router.post('/', protect, async (req, res) => {
     const bookingsToCreate = slots.map(slot => ({
       userId: req.user._id,
       date: new Date(slot.date),
-      dateStr: slot.date,
+      dateStr: slot.dateStr,
       batchNumber: slot.batchNumber,
       dayNumber: slot.dayNumber,
       topic: slot.topic,

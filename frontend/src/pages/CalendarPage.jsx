@@ -130,10 +130,7 @@ export default function CalendarPage() {
 
           <div className="text-center p-4 text-[#666]">
             <div className="flex justify-center gap-2 mb-2 text-primary-purple">
-              <span>●</span>
-              <span>●</span>
-              <span>●</span>
-              <span>●</span>
+           
             </div>
             <p className="text-xs">For inquiry: +44 123456789</p>
           </div>

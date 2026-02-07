@@ -99,9 +99,17 @@
 
 /* Already booked */
 .fc-event.slot-booked {
-    opacity: 0.7;
-    border: 2px dashed #333 !important;
+    background-color: #664275 !important;
+    border-color: #664275 !important;
     cursor: not-allowed;
+}
+
+.fc-event.slot-booked .slot-content {
+    color: white;
+}
+
+.fc-event.slot-booked:hover {
+    transform: none;
 }
 
 /* Sunday cells */
@@ -147,10 +155,10 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-.slot-content.booked::after {
-    content: '✓';
-    display: block;
+.slot-content.booked .booked-badge {
     font-size: 10px;
+    font-weight: 600;
+    opacity: 0.9;
     margin-top: 2px;
 }
 
