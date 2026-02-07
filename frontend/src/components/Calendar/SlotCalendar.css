@@ -29,19 +29,39 @@
 }
 
 .fc .fc-daygrid-day {
-    min-height: 80px;
+    min-height: 90px;
+    padding: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+
 
 .fc .fc-daygrid-day:hover {
     background-color: #f8f5fa;
 }
 
+.fc .fc-daygrid-day-frame {
+    display: flex !important;
+    flex-direction: column !important;
+    /* min-height: 100% !important; */
+}
+
+.fc .fc-daygrid-day-top {
+    order: 2;
+    /* margin-top: auto; */
+    text-align: right;
+}
+
+.fc .fc-daygrid-day-events {
+    order: 1;
+}
+
 .fc .fc-daygrid-day-number {
-    font-size: 12px;
-    color: #666;
+    font-size: 16px;
+    font-weight: 700;
+    color: #3c3b3b;
     padding: 4px 8px;
+    margin-top: -8px;
 }
 
 .fc .fc-col-header-cell-cushion {
@@ -106,23 +126,21 @@
 
 /* Slot content */
 .slot-content {
-    padding: 4px 8px;
-    text-align: center;
+    padding: 8px 10px;
+    text-align: left;
     color: white;
     border-radius: 4px;
 }
 
 .slot-content .day-label {
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 .slot-content .topic-label {
-    font-size: 10px;
+    font-size: 12px;
     opacity: 0.9;
-    margin-top: 2px;
+    margin-top: -2px;
 }
 
 .slot-content.selected {
@@ -174,10 +192,10 @@
     }
 
     .slot-content .day-label {
-        font-size: 9px;
+        font-size: 12px;
     }
 
     .slot-content .topic-label {
-        font-size: 8px;
+        font-size: 10px;
     }
 }
